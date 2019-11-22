@@ -1,0 +1,1 @@
+var map1 = [{x: 50, y: 50, width: 80, height:2}]
