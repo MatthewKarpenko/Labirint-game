@@ -3,8 +3,8 @@ function Character(func, coordinates) {
   this.beginFill(0x0000);
   this.drawCircle(0, 0, 5);
   this.endFill();
-  this.x = 64;
-  this.y = 250;
+  this.x = 15;
+  this.y = 340;
   this.vy = 0;
   this.vx = 0;
   this.accesMovement();

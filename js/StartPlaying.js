@@ -1,12 +1,11 @@
 
 
-function StartPlaying(textStyle) {
+function StartPlaying(textStyle, mainStage) {
   PIXI.Graphics.call(this);
   this.lineStyle(4, 0x00000, 1);
-  this.drawRect(0, 0, 200, 350);
+  this.drawRect(0, 0, 300, 350);
   this.endFill();
-  this.x = 50;
-  this.y = 30;
+  this.position.set(mainStage.width / 2 - this.width / 2, 30);
 
   this.gameName = new PIXI.Text('Labirintus', textStyle);
   this.gameName.position.set(
@@ -21,8 +20,10 @@ function StartPlaying(textStyle) {
   )
   this.playButton.interactive = true;
   this.playButton.buttonMode = true;
+  this.playButton.click = this.startGame;
 
   this.addChild(this.gameName, this.playButton)
 }
 
 StartPlaying.prototype = Object.create(PIXI.Graphics.prototype);
+

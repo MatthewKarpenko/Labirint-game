@@ -3,27 +3,19 @@ function Labirint(mainStage) {
   this.lineStyle(4, 0x00000, 1);
   this.drawRect(0, 0, 300, 350);
   this.endFill();
+  this.mainStage = mainStage;
   this.position.set(mainStage.width / 2 - this.width / 2, 30);
- 
-  this.wall = new Wall({
-      x: 50,
-      y: 50,
-      toX: 50,
-      toY: 200
-     });
-
+  this.exit = false;
   this.character = new Character();
-  this.addChild(this.character, this.wall);
+  this.door = new Door();
+  this.createLabirintWalls();
+  this.addChild(this.character, this.door);
 };
 
 Labirint.prototype = Object.create(PIXI.Graphics.prototype);
 
 Labirint.prototype.play = function() {
-  // var prevCharacterPos = {
-  //   x: this.character.x,
-  //   y: this.character.y
-  // }
-  // this.checkOnColision(prevCharacterPos, this.wall);
+
   this.checkOnColision();
   this.character.x += this.character.vx;
   this.character.y += this.character.vy;
@@ -32,16 +24,31 @@ Labirint.prototype.play = function() {
           y: 9,
           width: 300,
           height: 350})
+  if (this.collision(this.character, this.door)) {
+    this.exit = true;
+  }
+};
+
+Labirint.prototype.createLabirintWalls = function() {
+  for(var i = 0; i < map1.length; i++) {
+    this.addChild(new Wall({
+      x: map1[i].x,
+      y: map1[i].y,
+      width: map1[i].width,
+      height: map1[i].height,
+      toY: map1[i].toY
+     }))
+  }
 };
 
 Labirint.prototype.collision = function(r1, r2) {
   let hit, combinedHalfWidths, combinedHalfHeights, vx, vy;
   hit = false;
 
-  r1.centerX = r1.x + r1.width / 2;
-  r1.centerY = r1.y + r1.height / 2;
+  r1.centerX = r1.x;
+  r1.centerY = r1.y;
   r2.centerX = r2.x + r2.width / 2;
-  r2.centerY = r2.y + r2.height / 2;
+  r2.centerY = r2.y + r2.height / 2 - 1;
 
   r1.halfWidth = r1.width / 2;
   r1.halfHeight = r1.height / 2;
